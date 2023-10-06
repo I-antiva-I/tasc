@@ -1,0 +1,28 @@
+Example one:
+    Cat
+    Kitty
+End;
+
+
+Example two:
+    Dog
+    Puppy
+End;
+
+Example three:
+    Question?!
+    Yes of course...
+    No, no, no!
+    OK.
+    But, maybe yes?
+End;
+
+Example four:
+    Never!
+    Always!
+    Lorem ipsum!
+End;
+
+Example five:
+    Input a good placeholder text here.
+End;
