@@ -1,0 +1,61 @@
+@use "variables.scss" as vars;
+@use "mixins";
+@use "group-files.scss";
+
+// (?) spacing - The spacing property behaves differently depending on widget
+
+*
+{
+    margin: 0;
+    font-family: "Titillium Web";
+}
+
+
+.navigation
+{
+    background: mediumaquamarine;
+    padding: 8px 2px;
+
+    .nav-item
+    {
+        border-left: 4px solid seagreen;
+        background: transparent;
+        padding: 4px;
+        &__icon
+        {
+            margin-right: 4px;
+        }
+        &__label
+        {
+            font-size: 24px;
+            padding-right: 8px;
+            border: 1px dashed red;
+        }
+    }
+
+}
+
+
+
+#main-window
+{
+
+}
+
+QScrollArea
+{
+    background:  transparent;
+    border: none;
+    MyPanel
+    {
+        background:  transparent;
+    }
+
+}
+
+
+QScrollBar:vertical 
+{
+    width: 16px;
+}
+

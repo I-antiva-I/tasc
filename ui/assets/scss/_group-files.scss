@@ -1,0 +1,143 @@
+@use "variables" as vars;
+@use "mixins" as mix;
+
+.panel-b
+{
+    margin-bottom: 8px;;
+}
+.group-files
+{
+    margin-bottom: 8px;;
+    background:  vars.$color-black-dark;
+    padding: 8px;
+    font-size: 24px; 
+    font-weight: 500;
+    letter-spacing: 1px;
+    border: 2px solid white;
+
+    margin-top: 0.5em;
+    padding: 0.5em;
+    border-radius: 2px;
+    &:title
+    {
+        subcontrol-origin: margin;
+        subcontrol-position: top left;
+        padding: 0 8px;
+        left: 32px;
+        border: 2px solid white;
+        border-radius: 2px;
+        color: vars.$color-white;
+        background:  vars.$color-black-dark;
+    }
+
+    &__header
+    {
+        margin-top: 10px; // 2px+8px
+        min-height: 48px;
+
+
+        &--with-scroll
+        {
+            margin-right: 16px;
+        }
+        
+        .label
+        {
+            @include mix.center-text();
+
+            background: vars.$color-green-dark;
+            color: vars.$color-green-light;
+       
+            font-size: 24px; 
+            font-weight: 500;
+            letter-spacing: 1px;
+            
+            &--file-index
+            {
+                border-top-left-radius: 2px;
+                border-bottom-left-radius: 2px;
+                border-radius: 2px;
+            }
+
+            &--file-name
+            {
+                margin: 0px 4px;
+                border-radius: 2px;
+            }
+
+            &--file-controls
+            {
+                border-top-right-radius: 2px;
+                border-bottom-right-radius: 2px;
+                border-radius: 2px;
+            }
+        }
+    }
+
+    &__info
+    {
+        @include mix.center-text();
+
+        min-height: 48px;
+        background: vars.$color-blue-dark;
+        color: vars.$color-blue-light;
+        font-size: 24px; 
+        font-weight: 500;
+        margin-top: 4px;
+        border-radius: 4px;
+    }
+
+    &__item
+    {   
+        min-height: 48px;
+
+        &--odd
+        {
+            .label, .panel
+            {
+                background: vars.$color-black-light;
+            }
+        }
+
+        &--even
+        {
+            .label, .panel
+            {
+                background: vars.$color-gray-dark;
+            }
+        }
+
+        .label
+        {
+            @include mix.center-text();
+
+            color: vars.$color-white;
+            font-size: 16px; 
+            font-weight: 500;
+
+            &--file-index
+            {
+                border-top-left-radius: 2px;
+                border-bottom-left-radius: 2px;
+                border-radius: 2px;
+                font-size: 24px; 
+            }
+            &--file-name
+            {
+                margin: 0px 4;
+                border-radius: 2px;
+            }
+            
+
+        }
+
+        .panel
+        {
+            padding: 4px 16px;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            border-radius: 2px;
+  
+        }
+    }
+}
