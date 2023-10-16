@@ -1,0 +1,131 @@
+.panel-b {
+  margin-bottom: 8px;
+}
+
+.group-files {
+  margin-bottom: 8px;
+  background: #212121;
+  padding: 8px;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border: 2px solid white;
+  margin-top: 0.5em;
+  padding: 0.5em;
+  border-radius: 2px;
+}
+.group-files:title {
+  subcontrol-origin: margin;
+  subcontrol-position: top left;
+  padding: 0 8px;
+  left: 32px;
+  border: 2px solid white;
+  border-radius: 2px;
+  color: white;
+  background: #212121;
+}
+.group-files__header {
+  margin-top: 10px;
+  min-height: 48px;
+}
+.group-files__header--with-scroll {
+  margin-right: 16px;
+}
+.group-files__header .label {
+  qproperty-alignment: AlignCenter;
+  background: seagreen;
+  color: springgreen;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.group-files__header .label--file-index {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  border-radius: 2px;
+}
+.group-files__header .label--file-name {
+  margin: 0px 4px;
+  border-radius: 2px;
+}
+.group-files__header .label--file-controls {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-radius: 2px;
+}
+.group-files__info {
+  qproperty-alignment: AlignCenter;
+  min-height: 48px;
+  background: midnightblue;
+  color: dodgerblue;
+  font-size: 24px;
+  font-weight: 500;
+  margin-top: 4px;
+  border-radius: 4px;
+}
+.group-files__item {
+  min-height: 48px;
+}
+.group-files__item--odd .label, .group-files__item--odd .panel {
+  background: #424242;
+}
+.group-files__item--even .label, .group-files__item--even .panel {
+  background: #696969;
+}
+.group-files__item .label {
+  qproperty-alignment: AlignCenter;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+}
+.group-files__item .label--file-index {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  border-radius: 2px;
+  font-size: 24px;
+}
+.group-files__item .label--file-name {
+  margin: 0px 4;
+  border-radius: 2px;
+}
+.group-files__item .panel {
+  padding: 4px 16px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-radius: 2px;
+}
+
+* {
+  margin: 0;
+  font-family: "Titillium Web";
+}
+
+.navigation {
+  background: mediumaquamarine;
+  padding: 8px 2px;
+}
+.navigation .nav-item {
+  border-left: 4px solid seagreen;
+  background: transparent;
+  padding: 4px;
+}
+.navigation .nav-item__icon {
+  margin-right: 4px;
+}
+.navigation .nav-item__label {
+  font-size: 24px;
+  padding-right: 8px;
+  border: 1px dashed red;
+}
+
+QScrollArea {
+  background: transparent;
+  border: none;
+}
+QScrollArea MyPanel {
+  background: transparent;
+}
+
+QScrollBar:vertical {
+  width: 16px;
+}/*# sourceMappingURL=styles.css.map */
