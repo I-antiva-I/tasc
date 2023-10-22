@@ -3,9 +3,9 @@ import os
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QRadioButton, QCheckBox, QSizePolicy
 
-from ui.widgets.basic.my_label import MyLabel
-from ui.widgets.basic.my_panel import MyPanel
-from ui.widgets.basic.my_push_button import MyPushButton
+from ui.widgets.base.my_label import MyLabel
+from ui.widgets.base.my_panel import MyPanel
+from ui.widgets.base.my_push_button import MyPushButton
 
 
 class MyDocumentsItem(MyPanel):

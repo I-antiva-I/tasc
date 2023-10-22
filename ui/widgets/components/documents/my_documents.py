@@ -1,19 +1,20 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QScrollArea, QVBoxLayout
 
-from ui.widgets.documents.my_documents_control import MyDocumentsControl
+from ui.widgets.components.documents.my_documents_control import MyDocumentsControl
 from ui.widgets.utility.my_widget_with_layout import Alignment
-from ui.widgets.documents.my_documents_item import MyDocumentsItem
-from ui.widgets.basic.my_label import MyLabel
-from ui.widgets.basic.my_panel import MyPanel
+from ui.widgets.components.documents.my_documents_item import MyDocumentsItem
+from ui.widgets.base.my_label import MyLabel
+from ui.widgets.base.my_panel import MyPanel
 
 
 class MyDocuments(MyPanel):
     def __init__(self, main_window):
         super(MyDocuments, self).__init__(layout=QVBoxLayout())
 
-        # Data
+        # Array for documents
         self.documents_items = []
+        # Index of query document
         self.query_index = -1
 
         # Header
@@ -21,25 +22,26 @@ class MyDocuments(MyPanel):
         label_file_name =       MyLabel(text="File name")
         label_controls =        MyLabel(text="Controls")
         self.panel_header =     MyPanel(layout=QtWidgets.QGridLayout())
-
+        # Placement of header labels
         self.panel_header.place(label_file_index, 0, 0, colSpan=1)
         self.panel_header.place(label_file_name, 0, 1, colSpan=6)
         self.panel_header.place(label_controls, 0, 1+6, colSpan=5)
-
+        # Classes for header
         label_file_name.set_class("label--file-name")
         label_file_index.set_class("label--file-index")
         label_controls.set_class("label--file-controls")
         self.panel_header.set_class("documents__header")
 
-        # Info panel (no files)
+        # Info panel (when no files are selected)
         self.label_no_items = MyLabel(text="No files selected")
         self.label_no_items.set_class("documents__info")
 
-        # Content panel
+        # Content panel with documents
         self.content_panel = MyPanel(layout=QtWidgets.QVBoxLayout())
         self.content_panel.set_alignment(Alignment.TOP)
         self.content_panel.set_spacing(4)
 
+        # Scroll area
         scroll_area = QScrollArea()
         scroll_area.setWidget(self.content_panel)
         scroll_area.setWidgetResizable(True)
@@ -49,7 +51,7 @@ class MyDocuments(MyPanel):
         # Control panel
         control_panel = MyDocumentsControl(widget_documents=self, main_window=main_window)
 
-        # Main panel
+        # Main panel and widget placement
         main_panel = MyPanel(layout=QtWidgets.QVBoxLayout())
         main_panel.place(self.panel_header)
         main_panel.place(self.label_no_items)
