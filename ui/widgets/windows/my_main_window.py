@@ -1,20 +1,19 @@
 import os
-import pandas
 
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QHBoxLayout
 
 # UI
-from ui.widgets.basic.my_label import MyLabel
-from ui.widgets.basic.my_panel import MyPanel
+from ui.widgets.base.my_label import MyLabel
+from ui.widgets.base.my_panel import MyPanel
 # Logic
 from logic.calculations import fill_terms_via_document, fill_terms_via_query
 from logic.term import Term
 from logic.document import Document
-from ui.widgets.documents.my_documents import MyDocuments
-from ui.widgets.navigation.my_navigation import MyNavigation
-from ui.widgets.query.my_query import MyQuery
-from ui.widgets.results.my_results import MyResults
+from ui.widgets.components.documents.my_documents import MyDocuments
+from ui.widgets.components.navigation.my_navigation import MyNavigation
+from ui.widgets.components.query.my_query import MyQuery
+from ui.widgets.components.results.my_results import MyResults
 
 
 class MyMainWindow(QtWidgets.QMainWindow):
@@ -35,7 +34,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.navigation = MyNavigation(self.change_active_panel)
         self.main_panel.place(self.navigation)
 
-        # Sub panels
+        # Sub-panels
         self.sub_panels = {
             "documents":    MyDocuments(main_window=self),
             "query":        MyQuery(),
@@ -43,17 +42,15 @@ class MyMainWindow(QtWidgets.QMainWindow):
             "settings":     MyLabel(text="Settings"),
             "information":  MyLabel(text="Information")
         }
+        # Placement of sub-panels
         for key, panel in self.sub_panels.items():
             panel.hide()
             self.navigation.add_navigation_item(key, key.capitalize())
             self.main_panel.place(panel)
 
-        #
-
-
-        # Active panel
-        self.active_panel = self.sub_panels["results"]
-        self.active_panel.show()
+        # Active panel (simulating click)
+        self.active_panel_key = None
+        self.navigation.on_item_clicked("documents")
 
         # Apply fonts
         path_to_fonts = "./ui/assets/fonts"
@@ -66,16 +63,23 @@ class MyMainWindow(QtWidgets.QMainWindow):
             css = file.read()
             self.setStyleSheet(css)
 
-    #
-    def change_active_panel(self, key):
-        self.active_panel.hide()
-        self.active_panel = self.sub_panels[key]
-        self.active_panel.show()
+    def change_active_panel(self, new_active_key):
+        # Hide previous
+        if self.active_panel_key is not None:
+            self.sub_panels[self.active_panel_key].hide()
+
+        # Show new
+        self.active_panel_key = new_active_key
+        self.sub_panels[self.active_panel_key].show()
 
     #
     def calculate(self, documents_items):
-        print("DOCS", len(documents_items), documents_items)
-        print("QUERY", self.sub_panels["query"].get_query_content())
+
+        path_to_css = "./ui/assets/css/styles.css"
+        with open(path_to_css, "r") as file:
+            css = file.read()
+            self.setStyleSheet(css)
+        return
 
         # Terms and documents
         terms = {}
@@ -114,9 +118,12 @@ class MyMainWindow(QtWidgets.QMainWindow):
             term.calculate_idf()
             term.calculate_tf_idf()
 
-            data.append([terms[key].count, terms[key].tf, terms[key].idf, terms[key].tf_idf])
+            data.append([key, terms[key].count, terms[key].tf, terms[key].idf, terms[key].tf_idf])
 
-        df = pandas.DataFrame(data, index=terms.keys())
+        #print(data)
+        self.sub_panels["results"].update_table(data, number_of_documents, with_query)
+        self.change_active_panel("results")
+        #df = pandas.DataFrame(data, index=terms.keys())
 
-        print(df.to_string())
-        print(Term.calculate_cosine_similarity(terms.values()))
+        #print(df.to_string())
+        #print(Term.calculate_cosine_similarity(terms.values()))
