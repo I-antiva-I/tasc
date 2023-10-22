@@ -1,0 +1,56 @@
+.navigation
+{
+    background: dimgray;
+    padding: 8px 8px;
+    // spacing: 8px;
+
+    .nav-item
+    {
+        border-left: 8px solid #343434;
+        background: gainsboro;
+        padding: 4px;
+
+        &__icon
+        {
+            margin: 4px;
+        }
+
+        &__label
+        {
+            font-size: 24px;
+            font-weight: 500;
+            padding-right: 16px;
+            color: #343434;
+        }
+
+        &--default
+        {
+            border-left: 8px solid #343434;
+
+            .nav-item__label
+            {
+                color: #343434;
+            }
+        }
+
+        &--hovered
+        {
+            border-left: 8px solid dodgerblue;
+            
+            .nav-item__label
+            {
+                color: dodgerblue;
+            }
+        }
+
+        &--active
+        {
+            border-left: 8px solid seagreen;
+            
+            .nav-item__label
+            {
+                color: seagreen;
+            }
+        }
+    }
+}

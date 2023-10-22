@@ -95,27 +95,46 @@
   border-radius: 2px;
 }
 
-* {
-  margin: 0;
-  font-family: "Titillium Web";
-}
-
 .navigation {
-  background: mediumaquamarine;
-  padding: 8px 2px;
+  background: dimgray;
+  padding: 8px 8px;
 }
 .navigation .nav-item {
-  border-left: 4px solid seagreen;
-  background: transparent;
+  border-left: 8px solid #343434;
+  background: gainsboro;
   padding: 4px;
 }
 .navigation .nav-item__icon {
-  margin-right: 4px;
+  margin: 4px;
 }
 .navigation .nav-item__label {
   font-size: 24px;
-  padding-right: 8px;
-  border: 1px dashed red;
+  font-weight: 500;
+  padding-right: 16px;
+  color: #343434;
+}
+.navigation .nav-item--default {
+  border-left: 8px solid #343434;
+}
+.navigation .nav-item--default .nav-item__label {
+  color: #343434;
+}
+.navigation .nav-item--hovered {
+  border-left: 8px solid dodgerblue;
+}
+.navigation .nav-item--hovered .nav-item__label {
+  color: dodgerblue;
+}
+.navigation .nav-item--active {
+  border-left: 8px solid seagreen;
+}
+.navigation .nav-item--active .nav-item__label {
+  color: seagreen;
+}
+
+* {
+  margin: 0;
+  font-family: "Titillium Web";
 }
 
 QScrollArea {
