@@ -20,7 +20,7 @@ class MyWidget(QWidget):
             else:
                 self.class_list[my_class] = new_value
         else:
-            self.class_list[my_class] = True
+            self.class_list[my_class] = new_value
         if with_reset:
             self.reset_style()
 
