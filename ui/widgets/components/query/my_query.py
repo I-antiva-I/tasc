@@ -1,9 +1,9 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QPlainTextEdit
 
-from ui.widgets.basic.my_group import MyGroup
-from ui.widgets.basic.my_panel import MyPanel
-from ui.widgets.basic.my_push_button import MyPushButton
+from ui.widgets.base.my_group import MyGroup
+from ui.widgets.base.my_panel import MyPanel
+from ui.widgets.base.my_push_button import MyPushButton
 
 
 class MyQuery(MyPanel):
