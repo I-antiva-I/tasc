@@ -43,19 +43,27 @@ class Term:
     # Term Frequency (TF)
     def calculate_tf(self, document_index, total_word_count=1, max_word_count=1,
                      precision=5, base=10, method=TFMethod.TOTAL_COUNT):
+        # Safe
+        max_word_count = max(max_word_count, 1)
+        total_word_count = max(total_word_count, 1)
+
         # Method #1: Raw word count
         if method == TFMethod.RAW_COUNT:
             self.tf[document_index] = self.count[document_index]
+
         # Method #2: Normalization with total word count
         elif method == TFMethod.TOTAL_COUNT:
             self.tf[document_index] = round(self.count[document_index] / total_word_count, precision)
+
         # Method #3: Normalization with max word count
         elif method == TFMethod.MAX_COUNT:
             self.tf[document_index] = round(self.count[document_index]  / max_word_count, precision)
+
         # Method #4: Logarithmically scaled
         elif method == TFMethod.LOG_SCALED:
             result = cmath.log(1+self.count[document_index] , base)
             self.tf[document_index] = round(result.real, precision)
+
         # Method #5: Boolean
         elif method == TFMethod.BOOLEAN:
             self.tf[document_index] = int(self.count[document_index]  > 0)
@@ -68,7 +76,8 @@ class Term:
         # Scikit-Learn notation
         if notation == IDFNotation.SCIKIT_LEARN:
             result = cmath.log((documents+1) / (documents_with_term+1), base)
-            self.idf =  result.real + 1
+            self.idf =  round(result.real + 1, precision)
+
         # Standard notation
         elif notation == IDFNotation.STANDARD:
             if (documents != 0) and (documents_with_term != 0):
@@ -76,12 +85,12 @@ class Term:
                 self.idf = round(result.real, precision)
 
     # Term Frequency * Inverse Document Frequency (TF-IDF)
-    def calculate_tf_idf(self):
-        self.tf_idf = np.multiply(self.tf, self.idf)
+    def calculate_tf_idf(self, precision=5):
+        self.tf_idf = np.round(np.multiply(self.tf, self.idf), precision)
 
     @staticmethod
     # Cosine similarity between query and other documents
-    def calculate_cosine_similarity(terms):
+    def calculate_cosine_similarity(terms, precision=5):
         query_index = Term.number_of_documents
         similarity = np.zeros(Term.number_of_documents)
         for index in range(Term.number_of_documents):
@@ -89,7 +98,7 @@ class Term:
             denominator = (sum(map(lambda term: term.tf_idf[index]**2, terms))**0.5) * \
                           (sum(map(lambda term: term.tf_idf[query_index]**2, terms))**0.5)
 
-            similarity[index] = numerator / denominator if denominator != 0 else 0
+            similarity[index] = round(numerator / denominator, precision) if denominator != 0 else 0
 
         return similarity
 
