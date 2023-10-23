@@ -1,6 +1,6 @@
 from enum import Enum
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, Qt
 
 from ui.widgets.base.my_svg_icon import MySVGIcon
 from ui.widgets.base.my_label import MyLabel
@@ -55,6 +55,7 @@ class MyNavigationItem(MyPanel):
             self.toggle_class("nav-item--default", False, False)
             self.toggle_class("nav-item--active", False, False)
             self.toggle_class("nav-item--hovered", True, True)
+            self.setCursor(Qt.Qt.PointingHandCursor)
             self.item_icon.reset_pixmap("dodgerblue")
         elif state == MyNavigationItemState.ACTIVE:
             self.toggle_class("nav-item--default", False, False)
