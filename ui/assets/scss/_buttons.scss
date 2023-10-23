@@ -1,0 +1,29 @@
+
+#button
+{
+    &-add-file,
+    &-add-folder,
+    &-remove-all,
+    &-calculate,
+
+    &-clear,
+    &-copy,
+    &-paste,
+    
+    &-export
+    {
+        background: silver;
+        color: #343434;
+        border: 2px solid black;
+        border-radius: 4px;
+
+        &:hover
+        {
+            background: green;
+        }
+        &:pressed
+        {
+            background: blue;
+        }
+    }
+}
