@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 
 from ui.widgets.base.my_panel import MyPanel
-from ui.widgets.base.my_push_button import MyPushButton
+from ui.widgets.base.my_push_button import MyPushButtonWithIcon, MyPushButtonIcon
 from ui.widgets.components.results.my_table_model import MyTableModel
 
 
@@ -13,7 +13,7 @@ class MyResults(MyPanel):
         #self.table.verticalHeader().hide()
         self.place(self.table)
         control_panel = MyPanel(layout=QtWidgets.QHBoxLayout())
-        button1 = MyPushButton("Export")
+        button1 = MyPushButtonWithIcon(name="button-export", text="Export", icon_type=MyPushButtonIcon.EXPORT)
         control_panel.place_all(button1)
         self.place(control_panel)
 

@@ -3,7 +3,7 @@ import os
 from PyQt5.QtWidgets import QGridLayout, QFileDialog
 
 from ui.widgets.base.my_panel import MyPanel
-from ui.widgets.base.my_push_button import MyPushButton
+from ui.widgets.base.my_push_button import MyPushButtonWithIcon, MyPushButtonIcon
 
 
 class MyDocumentsControl(MyPanel):
@@ -11,21 +11,23 @@ class MyDocumentsControl(MyPanel):
         super(MyDocumentsControl, self).__init__(layout=QGridLayout())
 
         # File control
-        button_add_file =       MyPushButton(text="Add File")
-        button_add_folder =     MyPushButton(text="Add Folder")
-        button_remove_all =     MyPushButton(text="Remove All")
+        button_add_file =       MyPushButtonWithIcon(name="button-add-file", text="Add File", icon_type=MyPushButtonIcon.FILE)
+        button_add_folder =     MyPushButtonWithIcon(name="button-add-folder", text="Add Folder", icon_type=MyPushButtonIcon.FOLDER)
+        button_remove_all =     MyPushButtonWithIcon(name="button-remove-all", text="Remove All", icon_type=MyPushButtonIcon.REMOVE)
         button_add_file.clicked.connect(lambda:     self.add_file())
         button_add_folder.clicked.connect(lambda:   self.add_folder())
         button_remove_all.clicked.connect(lambda:   self.remove_all())
 
         # Calculation
-        button_calculate = MyPushButton(text="Calculate")
+        button_calculate = MyPushButtonWithIcon(name="button-calculate", text="Calculate", icon_type=MyPushButtonIcon.CALCULATE)
         button_calculate.clicked.connect(lambda: main_window.calculate(widget_documents.documents_items))
 
         self.place(button_remove_all, row=0, col=0)
         self.place(button_add_folder, row=0, col=1)
         self.place(button_add_file, row=0, col=2)
-        self.place(button_calculate, row=1, col=0, colSpan=3)
+        self.place(button_calculate, row=1, col=0, colSpan=1)
+
+        self.set_spacing(4)
 
         self.widget_documents = widget_documents
 
