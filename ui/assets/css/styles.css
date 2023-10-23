@@ -132,9 +132,29 @@
   color: seagreen;
 }
 
+#button-add-file, #button-add-folder, #button-remove-all, #button-calculate, #button-clear, #button-copy, #button-paste, #button-export {
+  background: silver;
+  color: #343434;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+#button-add-file:hover, #button-add-folder:hover, #button-remove-all:hover, #button-calculate:hover, #button-clear:hover, #button-copy:hover, #button-paste:hover, #button-export:hover {
+  background: green;
+}
+#button-add-file:pressed, #button-add-folder:pressed, #button-remove-all:pressed, #button-calculate:pressed, #button-clear:pressed, #button-copy:pressed, #button-paste:pressed, #button-export:pressed {
+  background: blue;
+}
+
 * {
   margin: 0;
   font-family: "Titillium Web";
+}
+
+QPushButton {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px;
 }
 
 QScrollArea {

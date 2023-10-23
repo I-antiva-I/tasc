@@ -1,7 +1,8 @@
 @use "variables.scss" as vars;
 @use "mixins";
-@use "group-files.scss";
+@use "group-files";
 @use "navigation";
+@use "buttons";
 
 // (?) spacing - The spacing property behaves differently depending on widget
 
@@ -12,7 +13,17 @@
 }
 
 
+QPushButton
+{
+    text-align: center;
 
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 12px;
+    //padding-left: 40px;
+    //border: 4px dashed red;
+    //background: silver;
+}
 
 
 
