@@ -1,20 +1,37 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QTabWidget
 
+from ui.widgets.base.my_label import MyLabel
 from ui.widgets.base.my_panel import MyPanel
-from ui.widgets.base.my_push_button import MyPushButtonWithIcon, MyPushButtonIcon
+from ui.widgets.base.my_push_button_with_icon import MyPushButtonWithIcon, MyPushButtonIcon
 from ui.widgets.components.results.my_table_model import MyTableModel
 
 
 class MyResults(MyPanel):
     def __init__(self):
         super(MyResults, self).__init__(layout=QtWidgets.QVBoxLayout())
+
+        self.table_similarity = None
+        self.table_tf_idf = None
+
+
         self.table = QtWidgets.QTableView()
+        label1 = MyLabel(text="TF-IDF Table")
+        label2 = MyLabel(text="Similarity Table")
+        tabwidget = QTabWidget()
+        #tabwidget.setDocumentMode(True)
+        tabwidget.tabBar().setDocumentMode(True)
+        tabwidget.tabBar().setExpanding(True)
+
+
+        tabwidget.addTab(label1, "TF-IDF Table")
+        tabwidget.addTab(label2, "Similarity Table")
         #self.table.horizontalHeader().hide()
         #self.table.verticalHeader().hide()
-        self.place(self.table)
+        self.place(tabwidget)
         control_panel = MyPanel(layout=QtWidgets.QHBoxLayout())
-        button1 = MyPushButtonWithIcon(name="button-export", text="Export", icon_type=MyPushButtonIcon.EXPORT)
-        control_panel.place_all(button1)
+        control_panel.set_class("results__control control-panel")
+        button_export = MyPushButtonWithIcon(name="button-export", text="Export", icon_type=MyPushButtonIcon.EXPORT)
         self.place(control_panel)
 
     def update_table(self, data, number_of_documents, with_query):
