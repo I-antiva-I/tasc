@@ -3,7 +3,7 @@ import os
 from PyQt5.QtWidgets import QGridLayout, QFileDialog
 
 from ui.widgets.base.my_panel import MyPanel
-from ui.widgets.base.my_push_button import MyPushButtonWithIcon, MyPushButtonIcon
+from ui.widgets.base.my_push_button_with_icon import MyPushButtonWithIcon, MyPushButtonIcon
 
 
 class MyDocumentsControl(MyPanel):
@@ -28,6 +28,7 @@ class MyDocumentsControl(MyPanel):
         self.place(button_calculate, row=1, col=0, colSpan=1)
 
         self.set_spacing(4)
+        self.set_class("documents__control control-panel")
 
         self.widget_documents = widget_documents
 

@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QPlainTextEdit
 
 from ui.widgets.base.my_group import MyGroup
 from ui.widgets.base.my_panel import MyPanel
-from ui.widgets.base.my_push_button import MyPushButtonWithIcon, MyPushButtonIcon
+from ui.widgets.base.my_push_button_with_icon import MyPushButtonWithIcon, MyPushButtonIcon
 
 
 class MyQuery(MyPanel):
@@ -19,6 +19,7 @@ class MyQuery(MyPanel):
         button_copy = MyPushButtonWithIcon(name="button-copy", text="Copy", icon_type=MyPushButtonIcon.COPY)
         button_paste = MyPushButtonWithIcon(name="button-paste", text="Paste", icon_type=MyPushButtonIcon.PASTE)
 
+        control_panel.set_class("query__control control-panel")
         control_panel.place(button_clear)
         control_panel.place(button_copy)
         control_panel.place(button_paste)
