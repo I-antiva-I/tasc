@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import QFileDialog, QRadioButton, QCheckBox, QSizePolicy
 
 from ui.widgets.base.my_label import MyLabel
 from ui.widgets.base.my_panel import MyPanel
-from ui.widgets.base.my_push_button import MyPushButtonWithIcon
+from ui.widgets.base.my_push_button import MyPushButton
+from ui.widgets.base.my_push_button_with_icon import MyPushButtonWithIcon
 
 
 class MyDocumentsItem(MyPanel):
@@ -30,8 +31,8 @@ class MyDocumentsItem(MyPanel):
         # Buttons
         self.button_query =         QRadioButton(text="Query")
         self.button_include =       QCheckBox(text="Included")
-        button_remove =             MyPushButtonWithIcon(text="Remove")
-        button_edit_path =          MyPushButtonWithIcon(text="Edit")
+        button_remove =             MyPushButton(text="Remove")
+        button_edit_path =          MyPushButton(text="Edit")
 
         self.button_query.clicked.connect(self.on_query_clicked)
         self.button_include.setChecked(self.is_included)
