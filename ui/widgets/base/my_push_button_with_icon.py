@@ -24,16 +24,18 @@ class MyPushButtonIcon(Enum):
 class MyPushButtonWithIcon(QPushButton, MyWidget):
     def __init__(self, text="Default text", name=None,
                  icon_type=0, icon_width=28, icon_height=28,
-                 icon_color_default="#343434", icon_color_hovered="#696969", icon_color_pressed="#FFFFFF"):
+                 icon_offset_x=12, icon_offset_y=0,
+                 icon_color_default="#343434", icon_color_hovered="#4169E1", icon_color_pressed="#FF7A00"):
         super(MyPushButtonWithIcon, self).__init__()
 
-        # ID
+        # Identifier
         if name is not None:
             self.setObjectName(name)
 
-        # Hardcoded margins
-        self.pixmap_offset = QSize(12, 0)
+        # Margins
+        self.pixmap_offset = QSize(icon_offset_x, icon_offset_y)
 
+        # Icon settings
         self.icon_width = icon_width
         self.icon_height = icon_height
         self.icon_type = icon_type
@@ -41,12 +43,13 @@ class MyPushButtonWithIcon(QPushButton, MyWidget):
         self.icon_color_hovered = icon_color_hovered
         self.icon_color_pressed = icon_color_pressed
 
+        # Pixel map
         self.pixmap = None
         self.reset_pixmap(self.icon_color_default)
 
+        # Misc
         self.setText(text)
         self.setCursor(Qt.Qt.PointingHandCursor)
-
         self.setMinimumSize(self.sizeHint())
 
     # Reload pixmap
@@ -87,26 +90,29 @@ class MyPushButtonWithIcon(QPushButton, MyWidget):
         painter.setRenderHint(QtGui.QPainter.SmoothPixmapTransform, True)
         painter.drawPixmap(int(position_x), int(position_y), self.pixmap)
 
-def icon_path_from_type(type):
+
+def icon_path_from_type(icon_type):
     root = "./ui/assets/images/button/"
 
-    if type == MyPushButtonIcon.FILE:
+    # Document group
+    if icon_type == MyPushButtonIcon.FILE:
         return root+"file.svg"
-    elif type == MyPushButtonIcon.FOLDER:
+    elif icon_type == MyPushButtonIcon.FOLDER:
         return root+"folder.svg"
-    elif type == MyPushButtonIcon.REMOVE:
+    elif icon_type == MyPushButtonIcon.REMOVE:
         return root+"remove.svg"
-    elif type == MyPushButtonIcon.CALCULATE:
+    elif icon_type == MyPushButtonIcon.CALCULATE:
         return root+"calculate.svg"
-
-    elif type == MyPushButtonIcon.CLEAR:
+    # Query group
+    elif icon_type == MyPushButtonIcon.CLEAR:
         return root+"clear.svg"
-    elif type == MyPushButtonIcon.COPY:
+    elif icon_type == MyPushButtonIcon.COPY:
         return root+"copy.svg"
-    elif type == MyPushButtonIcon.PASTE:
+    elif icon_type == MyPushButtonIcon.PASTE:
         return root+"paste.svg"
-
-    elif type == MyPushButtonIcon.EXPORT:
+    #
+    elif icon_type == MyPushButtonIcon.EXPORT:
         return root+"export.svg"
+    #
     else:
         return ""
