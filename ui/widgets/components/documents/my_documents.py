@@ -1,108 +1,143 @@
+from typing import List
+
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QScrollArea, QVBoxLayout
 
+from logic.controller import Controller
+from logic.document import Document
 from ui.widgets.components.documents.my_documents_control import MyDocumentsControl
 from ui.widgets.utility.my_widget_with_layout import Alignment
 from ui.widgets.components.documents.my_documents_item import MyDocumentsItem
 from ui.widgets.base.my_label import MyLabel
 from ui.widgets.base.my_panel import MyPanel
+from ui.widgets.windows import my_main_window as wins_my_main
 
 
 class MyDocuments(MyPanel):
-    def __init__(self, main_window):
+    def __init__(self, controller: Controller, main_widow: "wins_my_main.MyMainWindow"):
         super(MyDocuments, self).__init__(layout=QVBoxLayout())
 
-        # Array for documents
-        self.documents_items = []
+        self.controller = controller
+        self.main_widow = main_widow
+        self.set_style_class("documents")
+
+        # All child nodes that represent documents
+        self.documents_items :  List[MyDocumentsItem] = []
+
         # Index of query document
         self.query_index = -1
 
         # Header
-        label_file_index =      MyLabel(text="Index")
-        label_file_name =       MyLabel(text="File name")
-        label_controls =        MyLabel(text="Controls")
         self.panel_header =     MyPanel(layout=QtWidgets.QGridLayout())
+
+        # Header labels
+        label_file_index =      MyLabel(text="Index")
+        label_filename =        MyLabel(text="Filename")
+        label_controls =        MyLabel(text="Controls")
+
         # Placement of header labels
         self.panel_header.place(label_file_index, 0, 0, colSpan=1)
-        self.panel_header.place(label_file_name, 0, 1, colSpan=6)
-        self.panel_header.place(label_controls, 0, 1+6, colSpan=5)
+        self.panel_header.place(label_filename, 0, 1, colSpan=4)
+        self.panel_header.place(label_controls, 0, 1+4, colSpan=7)
+        self.panel_header.set_spacing(8)
+
         # Classes for header
-        label_file_name.set_class("label--file-name")
-        label_file_index.set_class("label--file-index")
-        label_controls.set_class("label--file-controls")
-        self.panel_header.set_class("documents__header")
+        label_filename.set_style_class("documents__label label--filename")
+        label_file_index.set_style_class("documents__label label--file-index")
+        label_controls.set_style_class("documents__label label--file-controls")
+        self.panel_header.set_style_class("documents__header")
 
-        # Info panel (when no files are selected)
-        self.label_no_items = MyLabel(text="No files selected")
-        self.label_no_items.set_class("documents__info")
+        # Content panel
+        self.panel_content = MyPanel(layout=QtWidgets.QVBoxLayout())
+        self.panel_content.set_style_class("documents__content")
+        self.panel_content.set_alignment(Alignment.TOP)
+        self.panel_content.set_spacing(8)
 
-        # Content panel with documents
-        self.content_panel = MyPanel(layout=QtWidgets.QVBoxLayout())
-        self.content_panel.set_alignment(Alignment.TOP)
-        self.content_panel.set_spacing(4)
-
-        # Scroll area
+        # Scroll area for content panel
         scroll_area = QScrollArea()
-        scroll_area.setWidget(self.content_panel)
+        scroll_area.setWidget(self.panel_content)
         scroll_area.setWidgetResizable(True)
         self.scroll_bar = scroll_area.verticalScrollBar()
-        self.scroll_bar.rangeChanged.connect(lambda: self.r())
+        self.scroll_bar.rangeChanged.connect(lambda: self.scroll_bar_gap())
 
         # Control panel
-        control_panel = MyDocumentsControl(widget_documents=self, main_window=main_window)
+        panel_control = MyDocumentsControl(my_documents=self)
 
-        # Main panel and widget placement
-        main_panel = MyPanel(layout=QtWidgets.QVBoxLayout())
-        main_panel.place(self.panel_header)
-        main_panel.place(self.label_no_items)
-        main_panel.place(scroll_area)
-        main_panel.place(control_panel)
-        self.place(main_panel)
+        # Placement
+        self.place_all(self.panel_header, scroll_area, panel_control)
 
+    # Add document
+    def add_document(self, filepath, filename):
+        self.controller.append_document(Document(filename=filename, filepath=filepath))
 
-    def r(self):
-        return
-        if self.scroll_bar.maximum() == 0:
-            self.panel_header.toggle_class("group-files__header--with-scroll", False)
-        else:
-            self.panel_header.toggle_class("group-files__header--with-scroll", True)
-        print(self.panel_header.class_list)
-        print("~", self.scroll_bar.value(), self.scroll_bar.maximum())
-        self.setStyleSheet("")
-
-    def update_target(self, index, isChecked):
-        if isChecked:
-            if self.query_index != -1:
-                self.documents_items[self.query_index].button_query.setChecked(False)
-            self.query_index = index
-        else:
-            self.query_index = -1
-
-    def add_item(self, path, name):
-        if self.label_no_items.isVisible():
-            self.label_no_items.hide()
-        item = MyDocumentsItem(widget_documents=self, index=len(self.documents_items), text=name, path=path)
+        index = len(self.documents_items)
+        item = MyDocumentsItem(my_documents=self, controller=self.controller, index=index, filename=filename)
         self.documents_items.append(item)
-        self.content_panel.place(item)
+
+        # Place new item
+        self.panel_content.place(item)
+
+        # If no query selected, then select first
         if self.query_index == -1:
-            self.query_index = 0
             item.button_query.setChecked(True)
+            item.on_query_clicked()
 
-    def remove_item(self, index):
+        print(self.controller.documents[0].is_query)
+
+    # Update document
+    def update_document(self, index: int , is_included: bool = None, is_query: bool = None,
+                        filepath: str = None, filename: str = None):
+
+        if is_included is not None:
+            self.controller.set_document_included(index, is_included)
+
+        if filepath is not None:
+            self.controller.set_document_filepath(index, filepath)
+
+        if filename is not None:
+            self.controller.set_document_filename(index, filename)
+            self.documents_items[self.query_index].label_filename.setText(filename)
+
+        if is_query is not None:
+            if is_query is True:
+                if self.query_index != -1:
+                    self.documents_items[self.query_index].button_query.setChecked(False)
+                    self.controller.set_document_query(self.query_index, False)
+                self.query_index = index
+            else:
+                self.query_index = -1
+            self.controller.set_document_query(index, is_query)
+
+        print(index, is_included, is_query, filepath, filename)
+
+    # Remove document at index
+    def remove_document(self, index: int):
+        # Lower larger indexes
         for item in self.documents_items[index+1:]:
-            item.update_index()
+            item.lower_index()
 
-        self.documents_items.pop(index)
+        self.documents_items.pop(index).deleteLater()
+        self.controller.remove_document(index)
+
         if index == self.query_index:
             self.query_index = -1
+
+    # Add/Remove addition gap if scroll bar is shown
+    def scroll_bar_gap(self):
+        if self.scroll_bar.maximum() == 0:
+            self.panel_header.toggle_style_class("documents__header--with-scroll", False)
         else:
-            self.query_index = max(self.query_index - 1, -1)
+            self.panel_header.toggle_style_class("documents__header--with-scroll", True)
 
-        if len(self.documents_items) == 0:
-            self.label_no_items.show()
-
+    # Remove all documents
     def remove_all(self):
+        # Remove UI
         for item in self.documents_items:
             item.deleteLater()
+        # Remove data
         self.documents_items.clear()
-        self.label_no_items.show()
+        self.controller.documents.clear()
+
+    #
+    def calculate(self):
+        self.main_widow.calculate()
