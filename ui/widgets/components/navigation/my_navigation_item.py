@@ -14,22 +14,26 @@ class MyNavigationItemState(Enum):
 
 
 class MyNavigationItem(MyPanel):
+    icon_color_default = "#424242"
+    icon_color_hovered = "#4169E1"
+    icon_color_active =  "#FF7A00"
+
     def __init__(self, key, header, navigation):
         super(MyNavigationItem, self).__init__(layout=QtWidgets.QHBoxLayout())
 
         self.item_icon = MySVGIcon(path_to_icon=icon_path_from_key(key))
         self.item_label = MyLabel(text=header)
 
-        self.place_all(self.item_icon, self.item_label)
-
-        self.item_icon.set_class("nav-item__icon")
-        self.item_label.set_class("nav-item__label")
-        self.set_class("nav-item")
+        self.item_icon.set_style_class("nav-item__icon")
+        self.item_label.set_style_class("nav-item__label")
+        self.set_style_class("nav-item")
 
         self.navigation = navigation
         self.item_key = key
         self.item_state = None
         self.set_state(MyNavigationItemState.DEFAULT)
+
+        self.place_all(self.item_icon, self.item_label)
 
     def mousePressEvent(self, QEvent):
         super().mousePressEvent(QEvent)
@@ -47,21 +51,25 @@ class MyNavigationItem(MyPanel):
 
     def set_state(self, state):
         if state == MyNavigationItemState.DEFAULT:
-            self.toggle_class("nav-item--active", False, False)
-            self.toggle_class("nav-item--hovered", False, False)
-            self.toggle_class("nav-item--default", True, True)
-            self.item_icon.reset_pixmap("#424242")
+            self.setFocusPolicy(Qt.Qt.FocusPolicy.TabFocus)
+            self.toggle_style_class("nav-item--active", False, False)
+            self.toggle_style_class("nav-item--hovered", False, False)
+            self.toggle_style_class("nav-item--default", True, True)
+            self.item_icon.reset_pixmap(MyNavigationItem.icon_color_default)
+
         elif state == MyNavigationItemState.HOVERED:
-            self.toggle_class("nav-item--default", False, False)
-            self.toggle_class("nav-item--active", False, False)
-            self.toggle_class("nav-item--hovered", True, True)
+            self.toggle_style_class("nav-item--default", False, False)
+            self.toggle_style_class("nav-item--active", False, False)
+            self.toggle_style_class("nav-item--hovered", True, True)
             self.setCursor(Qt.Qt.PointingHandCursor)
-            self.item_icon.reset_pixmap("dodgerblue")
+            self.item_icon.reset_pixmap(MyNavigationItem.icon_color_hovered)
+
         elif state == MyNavigationItemState.ACTIVE:
-            self.toggle_class("nav-item--default", False, False)
-            self.toggle_class("nav-item--hovered", False, False)
-            self.toggle_class("nav-item--active", True, True)
-            self.item_icon.reset_pixmap("seagreen")
+            self.setFocusPolicy(Qt.Qt.FocusPolicy.NoFocus)
+            self.toggle_style_class("nav-item--default", False, False)
+            self.toggle_style_class("nav-item--hovered", False, False)
+            self.toggle_style_class("nav-item--active", True, True)
+            self.item_icon.reset_pixmap(MyNavigationItem.icon_color_active)
 
         self.item_state = state
 
