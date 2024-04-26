@@ -13,10 +13,12 @@ class WordCase(Enum):
 
 # Document
 class Document:
-    def __init__(self, filename, path):
-        self.filename = filename
-        self.path = path
-        self.word_count = 0
+    def __init__(self, filename: str, filepath: str, is_query: bool = False, is_included: bool = True):
+        self.filename: str = filename
+        self.filepath: str = filepath
+        self.is_query: bool = is_query
+        self.is_included: bool = is_included
+        self.word_count: int = 0
 
     @staticmethod
     # Extract words from file and return as array
