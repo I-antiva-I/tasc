@@ -1,4 +1,5 @@
 import os
+from enum import Enum
 
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QHBoxLayout
@@ -7,7 +8,8 @@ from PyQt5.QtWidgets import QHBoxLayout
 from ui.widgets.base.my_label import MyLabel
 from ui.widgets.base.my_panel import MyPanel
 # Logic
-from logic.calculations import fill_terms_via_document, fill_terms_via_query
+from logic.controller import Controller
+from logic.calculations import fill_terms_from_query, fill_terms_from_document
 from logic.term import Term
 from logic.document import Document
 from ui.widgets.components.documents.my_documents import MyDocuments
@@ -16,8 +18,16 @@ from ui.widgets.components.query.my_query import MyQuery
 from ui.widgets.components.results.my_results import MyResults
 
 
+class SubPanel(Enum):
+    DOCUMENTS = 0
+    QUERY = 1
+    RESULTS = 2
+    SETTINGS = 3
+    INFORMATION = 4
+
+
 class MyMainWindow(QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self, controller: Controller):
         super(MyMainWindow, self).__init__()
 
         # Window properties
@@ -27,7 +37,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
 
         # Central widget
         self.main_panel = MyPanel(layout=QHBoxLayout())
-        self.main_panel.set_class("main-window__main-panel")
+        self.main_panel.set_style_class("main-window__main-panel")
         self.setCentralWidget(self.main_panel)
 
         # Navigation
@@ -36,21 +46,22 @@ class MyMainWindow(QtWidgets.QMainWindow):
 
         # Sub-panels
         self.sub_panels = {
-            "documents":    MyDocuments(main_window=self),
-            "query":        MyQuery(),
-            "results":      MyResults(),
-            "settings":     MyLabel(text="Settings"),
-            "information":  MyLabel(text="Information")
+            SubPanel.DOCUMENTS:    MyDocuments(controller=controller, main_widow=self),
+            SubPanel.QUERY:        MyQuery(),
+            SubPanel.RESULTS:      MyResults(),
+            SubPanel.SETTINGS:     MyLabel(text="Settings"),   #TODO
+            SubPanel.INFORMATION:  MyLabel(text="Information") #TODO
         }
+
         # Placement of sub-panels
         for key, panel in self.sub_panels.items():
             panel.hide()
-            self.navigation.add_navigation_item(key, key.capitalize())
+            self.navigation.add_navigation_item(key, key.name)
             self.main_panel.place(panel)
 
-        # Active panel (simulating click)
+        # Initially active panel (simulating click)
         self.active_panel_key = None
-        self.navigation.on_item_clicked("documents")
+        self.navigation.on_item_clicked(SubPanel.DOCUMENTS)
 
         # Apply fonts
         path_to_fonts = "./ui/assets/fonts"
@@ -63,6 +74,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
             css = file.read()
             self.setStyleSheet(css)
 
+    # Swap currently visible panel
     def change_active_panel(self, new_active_key):
         # Hide previous
         if self.active_panel_key is not None:
@@ -73,7 +85,12 @@ class MyMainWindow(QtWidgets.QMainWindow):
         self.sub_panels[self.active_panel_key].show()
 
     #
-    def calculate(self, documents_items):
+    def calculate(self):
+        print("CALC M")
+        self.navigation.on_item_clicked(SubPanel.RESULTS)
+
+
+        pass
 
         path_to_css = "./ui/assets/css/styles.css"
         with open(path_to_css, "r") as file:
@@ -119,7 +136,6 @@ class MyMainWindow(QtWidgets.QMainWindow):
             term.calculate_tf_idf()
 
             data.append([key, terms[key].count, terms[key].tf, terms[key].idf, terms[key].tf_idf])
-
         #print(data)
         self.sub_panels["results"].update_table(data, number_of_documents, with_query)
         self.change_active_panel("results")
