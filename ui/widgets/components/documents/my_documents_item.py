@@ -3,71 +3,74 @@ import os
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QRadioButton, QCheckBox, QSizePolicy
 
+from logic.controller import Controller
+from logic.document import Document
 from ui.widgets.base.my_label import MyLabel
 from ui.widgets.base.my_panel import MyPanel
 from ui.widgets.base.my_push_button import MyPushButton
 from ui.widgets.base.my_push_button_with_icon import MyPushButtonWithIcon
+from ui.widgets.components.documents import my_documents as comp_docs
 
 
 class MyDocumentsItem(MyPanel):
-    def __init__(self, widget_documents, index=None, text=None, path=None):
+    def __init__(self, my_documents: "comp_docs.MyDocuments", controller: Controller, index: int, filename: str):
         super(MyDocumentsItem, self).__init__(layout=QtWidgets.QGridLayout())
 
-        # Data
-        self.file_index = index
-        self.file_path = path
-        self.is_query = False
-        self.is_included = True
-        self.widget_documents = widget_documents
+        # References
+        self.my_documents = my_documents
+        self.controller = controller
+
+        # Index
+        self.document_index = index
+
+        # Style class
+        class_modifier = "--even" if (index % 2 == 0) else "--odd"
+        self.set_style_class("documents__item documents__item" + class_modifier)
 
         # Labels
-        self.label_file_index = MyLabel(text=str(index + 1))
-        self.label_file_name = MyLabel(text=str(text))
-
-        self.label_file_index.set_class("label--file-index")
-        self.label_file_name.set_class("label--file-name")
-        self.label_file_name.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        self.label_index =      MyLabel(text=str(index+1))
+        self.label_filename =   MyLabel(text=str(filename))
+        self.label_index.set_style_class("label--index")
+        self.label_filename.set_style_class("label--filename")
+        self.label_filename.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
 
         # Buttons
         self.button_query =         QRadioButton(text="Query")
         self.button_include =       QCheckBox(text="Included")
         button_remove =             MyPushButton(text="Remove")
         button_edit_path =          MyPushButton(text="Edit")
+        self.button_include.setChecked(True)
 
+        # Connect
         self.button_query.clicked.connect(self.on_query_clicked)
-        self.button_include.setChecked(self.is_included)
         self.button_include.clicked.connect(self.on_include_clicked)
         button_remove.clicked.connect(self.on_remove_clicked)
         button_edit_path.clicked.connect(self.on_edit_clicked)
 
         # Control panel
-        control_panel = MyPanel(layout=QtWidgets.QHBoxLayout())
-        control_panel.place_all(self.button_query, self.button_include, button_remove, button_edit_path)
+        panel_control = MyPanel(layout=QtWidgets.QHBoxLayout())
+        panel_control.place_all(self.button_query, self.button_include, button_remove, button_edit_path)
 
         # Placement
-        self.place(self.label_file_index, 0, 0, colSpan=1)
-        self.place(self.label_file_name, 0, 1, colSpan=6)
-        self.place(control_panel, 0, 1+6, colSpan=5)
+        self.place(self.label_index, 0, 0, colSpan=1)
+        self.place(self.label_filename, 0, 1, colSpan=6)
+        self.place(panel_control, 0, 1+6, colSpan=5)
         self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        self.set_spacing(8)
 
-        class_modifier = "--even" if (index % 2 == 0) else "--odd"
-        self.set_class("documents__item documents__item"+class_modifier)
-
-    # Remove button
+    # Remove button clicked
     def on_remove_clicked(self):
-        self.widget_documents.remove_item(self.file_index)
-        self.deleteLater()
+        self.my_documents.remove_document(self.document_index)
 
-    # Include button
+    # Include check box clicked
     def on_include_clicked(self):
-        self.is_included = not self.is_included
+        self.my_documents.update_document(self.document_index, is_included=self.button_include.isChecked())
 
-    # Query button
+    # Query radio box clicked
     def on_query_clicked(self):
-        self.is_query = not self.is_query
-        self.widget_documents.update_target(self.file_index, self.is_query)
+        self.my_documents.update_document(self.document_index, is_query=self.button_query.isChecked())
 
-    # Edit button
+    # Edit button clicked
     def on_edit_clicked(self):
         # Prepare file dialog
         dialog = QFileDialog(self)
@@ -85,21 +88,19 @@ class MyDocumentsItem(MyPanel):
         if os.path.isfile(dialog_path):
             name, extension = os.path.splitext(dialog_path)
             if extension == ".txt":
-                self.update_file_data(dialog_path, os.path.basename(name + extension))
+                self.my_documents.update_document(index=self.document_index,
+                                                  filename=os.path.basename(name + extension),
+                                                  filepath=dialog_path)
 
-    # Update file name label and file path
-    def update_file_data(self, path, name):
-        self.file_path = path
-        self.label_file_name.setText(name)
+    # Lower index of document, change label text and restyle self
+    def lower_index(self):
+        self.document_index = self.document_index-1
 
-    # Update index and style
-    def update_index(self):
-        self.file_index = self.file_index - 1
-        self.label_file_index.setText(str(self.file_index + 1))
+        self.label_index.setText(str(self.document_index + 1))
 
-        new_modifier = "--even" if (self.file_index % 2 == 0) else "--odd"
-        old_modifier = "--odd" if (self.file_index % 2 == 0) else "--even"
+        new_modifier = "--even" if (self.document_index % 2 == 0) else "--odd"
+        old_modifier = "--odd" if (self.document_index  % 2 == 0) else "--even"
 
-        self.toggle_class("documents__item"+old_modifier, with_reset=False)
-        self.toggle_class("documents__item"+new_modifier)
+        self.toggle_style_class("documents__item" + old_modifier, with_reset=False)
+        self.toggle_style_class("documents__item" + new_modifier)
 
