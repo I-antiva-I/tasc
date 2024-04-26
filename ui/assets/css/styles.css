@@ -96,12 +96,12 @@
 }
 
 .navigation {
-  background: dimgray;
+  background: #696969;
   padding: 8px 8px;
+  border-right: 2px solid black;
 }
 .navigation .nav-item {
   border-left: 8px solid #343434;
-  background: gainsboro;
   padding: 4px;
 }
 .navigation .nav-item__icon {
@@ -115,21 +115,24 @@
 }
 .navigation .nav-item--default {
   border-left: 8px solid #343434;
+  background: gainsboro;
 }
 .navigation .nav-item--default .nav-item__label {
   color: #343434;
 }
 .navigation .nav-item--hovered {
-  border-left: 8px solid dodgerblue;
+  border-left: 8px solid #4169E1;
+  background: white;
 }
 .navigation .nav-item--hovered .nav-item__label {
-  color: dodgerblue;
+  color: #4169E1;
 }
 .navigation .nav-item--active {
-  border-left: 8px solid seagreen;
+  border-left: 8px solid #FF7A00;
+  background: #343434;
 }
 .navigation .nav-item--active .nav-item__label {
-  color: seagreen;
+  color: #FF7A00;
 }
 
 #button-add-file, #button-add-folder, #button-remove-all, #button-calculate, #button-clear, #button-copy, #button-paste, #button-export {
@@ -139,10 +142,53 @@
   border-radius: 4px;
 }
 #button-add-file:hover, #button-add-folder:hover, #button-remove-all:hover, #button-calculate:hover, #button-clear:hover, #button-copy:hover, #button-paste:hover, #button-export:hover {
-  background: green;
+  background: white;
+  color: #4169E1;
+  border: 2px solid #4169E1;
 }
 #button-add-file:pressed, #button-add-folder:pressed, #button-remove-all:pressed, #button-calculate:pressed, #button-clear:pressed, #button-copy:pressed, #button-paste:pressed, #button-export:pressed {
-  background: blue;
+  background: #343434;
+  color: #FF7A00;
+  border: 2px solid #FF7A00;
+}
+
+.documents__control {
+  border: none;
+  border-top: 2px solid black;
+  background: #5D5D5D;
+  padding: 8px 8px;
+}
+.documents__header {
+  background: #5D5D5D;
+  border: none;
+  border-bottom: 2px solid black;
+  padding: 8px 8px;
+}
+.documents__header .label--file-name, .documents__header .label--file-index, .documents__header .label--file-controls {
+  color: black;
+  background: gainsboro;
+  font-size: 16px;
+  qproperty-alignment: AlignCenter;
+}
+.documents__content {
+  background: #323232;
+  padding: 8px;
+}
+.documents__item {
+  color: black;
+  background: gainsboro;
+  font-size: 16px;
+}
+.documents__item--odd {
+  background: #C0C0C0;
+}
+.documents__item .label--file-name, .documents__item .label--file-index, .documents__item .label--file-controls {
+  color: black;
+  font-size: 16px;
+  qproperty-alignment: AlignCenter;
+}
+.documents QScrollArea {
+  background: #323232;
 }
 
 * {
@@ -167,4 +213,29 @@ QScrollArea MyPanel {
 
 QScrollBar:vertical {
   width: 16px;
+}
+
+.query__control {
+  border: none;
+  border-top: 2px solid black;
+  background: #5D5D5D;
+  padding: 8px 8px;
+}
+
+QTabWidget::pane {
+  background-color: #f0f0f0;
+}
+
+QTabBar::tab {
+  background-color: gainsboro;
+  border-bottom: 2px solid #343434;
+  color: #343434;
+  font-size: 16px;
+  padding: 8px 16px;
+}
+
+QTabBar::tab:selected {
+  background-color: #343434;
+  color: #FF7A00;
+  border-bottom: 2px solid #FF7A00;
 }/*# sourceMappingURL=styles.css.map */

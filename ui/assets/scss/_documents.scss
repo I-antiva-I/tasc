@@ -1,0 +1,76 @@
+.documents
+{
+    &__control
+    {
+        border: none;
+        border-top: 2px solid black;
+        background: #5D5D5D;
+        padding: 8px 8px;
+    }
+
+    &__header
+    {
+        background: #5D5D5D;
+        border: none;
+        border-bottom: 2px solid black;
+        padding: 8px 8px;
+
+        .label
+        {
+            &--file-name,
+            &--file-index,
+            &--file-controls
+            {
+                color: black;
+                background: gainsboro;
+                font-size: 16px;
+                qproperty-alignment: AlignCenter;
+        
+            }
+        }
+    }
+
+    &__content
+    {
+        background: #323232;
+        padding: 8px;
+    }
+
+    &__item
+    {
+        color: black;
+        background: gainsboro;
+        font-size: 16px;
+        
+        &--odd
+        {
+            background: #C0C0C0;
+        }
+
+        .label
+        {
+            &--file-name,
+            &--file-index,
+            &--file-controls
+            {
+                color: black;
+       
+                font-size: 16px;
+                qproperty-alignment: AlignCenter;
+        
+            }
+        }
+        
+    }
+
+    &__label
+    {
+
+    }
+
+    QScrollArea
+    {
+        background: #323232;
+    }
+}
+

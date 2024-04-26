@@ -1,13 +1,13 @@
 .navigation
 {
-    background: dimgray;
+    background: #696969;
     padding: 8px 8px;
+    border-right: 2px solid black;
     // spacing: 8px;
 
     .nav-item
     {
         border-left: 8px solid #343434;
-        background: gainsboro;
         padding: 4px;
 
         &__icon
@@ -26,6 +26,7 @@
         &--default
         {
             border-left: 8px solid #343434;
+            background: gainsboro;
 
             .nav-item__label
             {
@@ -35,22 +36,26 @@
 
         &--hovered
         {
-            border-left: 8px solid dodgerblue;
-            
+            border-left: 8px solid #4169E1;
+            background: white;
+
             .nav-item__label
             {
-                color: dodgerblue;
+                color: #4169E1;
             }
         }
 
         &--active
         {
-            border-left: 8px solid seagreen;
+            border-left: 8px solid #FF7A00;
+            background: #343434;
             
             .nav-item__label
             {
-                color: seagreen;
+                color: #FF7A00;
             }
         }
+
+ 
     }
 }

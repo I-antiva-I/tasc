@@ -3,6 +3,7 @@
 @use "group-files";
 @use "navigation";
 @use "buttons";
+@use "documents";
 
 // (?) spacing - The spacing property behaves differently depending on widget
 
@@ -49,3 +50,33 @@ QScrollBar:vertical
     width: 16px;
 }
 
+
+
+.query
+{
+    &__control
+    {
+        border: none;
+        border-top: 2px solid black;
+        background: #5D5D5D;
+        padding: 8px 8px;
+    }
+}
+
+QTabWidget::pane {
+    background-color: #f0f0f0;
+}
+
+QTabBar::tab {
+    background-color: gainsboro;
+    border-bottom: 2px solid #343434;
+    color: #343434;
+    font-size: 16px;
+    padding: 8px 16px;
+}
+
+QTabBar::tab:selected {
+    background-color: #343434;
+    color: #FF7A00;
+    border-bottom: 2px solid #FF7A00;
+}

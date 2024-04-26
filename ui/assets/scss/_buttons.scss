@@ -19,11 +19,16 @@
 
         &:hover
         {
-            background: green;
+            background: white;
+            color: #4169E1;
+            border: 2px solid #4169E1;
         }
         &:pressed
         {
-            background: blue;
+            background: #343434;
+            color: #FF7A00;
+            border: 2px solid #FF7A00;
         }
+
     }
 }
