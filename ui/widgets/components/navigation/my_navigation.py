@@ -15,7 +15,7 @@ class MyNavigation(MyPanel):
         self.active_item_key = None
         self.change_active_panel = lambda panel_key: change_active_panel(panel_key)
 
-        self.set_class("navigation")
+        self.set_style_class("navigation")
         self.set_spacing(8)
         self.set_alignment(Alignment.TOP)
         self.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)
