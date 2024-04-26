@@ -9,7 +9,7 @@ class IDFNotation(Enum):
     STANDARD = 2
 
 
-# Enum for method tf calculation
+# Enum for method of term frequency calculation
 class TFMethod(Enum):
     RAW_COUNT = 1
     TOTAL_COUNT = 2

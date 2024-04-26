@@ -3,7 +3,6 @@ Example one:
     Kitty
 End;
 
-
 Example two:
     Dog
     Puppy

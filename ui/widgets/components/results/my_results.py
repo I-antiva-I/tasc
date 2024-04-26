@@ -30,7 +30,7 @@ class MyResults(MyPanel):
         #self.table.verticalHeader().hide()
         self.place(tabwidget)
         control_panel = MyPanel(layout=QtWidgets.QHBoxLayout())
-        control_panel.set_class("results__control control-panel")
+        control_panel.set_style_class("results__control control-panel")
         button_export = MyPushButtonWithIcon(name="button-export", text="Export", icon_type=MyPushButtonIcon.EXPORT)
         self.place(control_panel)
 

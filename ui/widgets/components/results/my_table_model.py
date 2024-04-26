@@ -40,14 +40,14 @@ class MyTableModel(QAbstractTableModel):
             offset = 1
 
             for counts in (data[term][1]):
-                self.data[term + 2][offset] = counts
+                self.data[term+2][offset] = counts
                 offset += 1
 
             for tf in (data[term][2]):
                 self.data[term+2][offset] = tf
                 offset += 1
 
-            self.data[term + 2][offset] = data[term][3]
+            self.data[term+2][offset] = data[term][3]
             offset += 1
 
             for tf_idf in (data[term][4]):

@@ -14,18 +14,19 @@ class MyQuery(MyPanel):
         self.place(self.text_area)
 
         # Query control
-        control_panel = MyPanel(QtWidgets.QHBoxLayout())
+        panel_control = MyPanel(QtWidgets.QHBoxLayout())
         button_clear = MyPushButtonWithIcon(name="button-clear", text="Clear", icon_type=MyPushButtonIcon.CLEAR)
         button_copy = MyPushButtonWithIcon(name="button-copy", text="Copy", icon_type=MyPushButtonIcon.COPY)
         button_paste = MyPushButtonWithIcon(name="button-paste", text="Paste", icon_type=MyPushButtonIcon.PASTE)
 
-        control_panel.set_class("query__control control-panel")
-        control_panel.place(button_clear)
-        control_panel.place(button_copy)
-        control_panel.place(button_paste)
+        panel_control.set_style_class("query__control control-panel")
+        panel_control.place(button_clear)
+        panel_control.place(button_copy)
+        panel_control.place(button_paste)
+        panel_control.set_spacing(8)
         #button_clear.clicked.connect(lambda: self.get_text_area_content())
 
-        self.place(control_panel)
+        self.place(panel_control)
 
     def get_query_content(self):
         return self.text_area.toPlainText()
